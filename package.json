@@ -1,7 +1,7 @@
 {
-  "name": "js-algo",
+  "name": "ts-algo",
   "version": "1.0.0",
-  "description": "Data structures and algorithms (ES5, ES5+, TS)",
+  "description": "Data structures and algorithms implemented in TypeScript",
   "main": "index.js",
   "author": "Ahmed Mokhtar (https://www.linkedin.com/in/ahmedmokhtar-dev/)",
   "license": "MIT",
@@ -22,7 +22,8 @@
   "scripts": {
     "tsc": "tsc",
     "lint": "eslint --fix ts/**/*.ts",
-    "format": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss,md}"
+    "format": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss,md}",
+    "play": "yarn tsc&&node js/playground"
   },
   "husky": {
     "hooks": {
