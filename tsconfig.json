@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "outDir": "js",
+    "strict": true,
+    "target": "es5",
+    "lib": ["ESNext", "DOM"]
+  },
+  "compileOnSave": true,
+  "include": ["ts"]
+}
