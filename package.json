@@ -21,6 +21,20 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "lint": "eslint --fix ts/**/*.ts"
+    "lint": "eslint --fix ts/**/*.ts",
+    "format": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss,md}"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn tsc && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix"
+    ],
+    "**/*.{js,jsx,ts,tsx,json,css,scss,md": [
+      "prettier --write"
+    ]
   }
 }

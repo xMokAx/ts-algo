@@ -23,5 +23,6 @@
       "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
     }
   },
+
   "ignorePatterns": ["js/", "node_modules/"]
 }
