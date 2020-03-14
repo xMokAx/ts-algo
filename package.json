@@ -31,11 +31,11 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
-      "eslint --fix"
-    ],
     "**/*.{js,jsx,ts,tsx,json,css,scss,md": [
       "prettier --write"
+    ],
+    "*.ts": [
+      "eslint --fix"
     ]
   }
 }

@@ -1,30 +1,18 @@
 const inspect = Symbol.for("nodejs.util.inspect.custom");
 
-interface SetItems<T> {
-  [key: string]: T;
-}
-
 export class MySet<T> {
-  private items: SetItems<T>;
-  private length: number;
+  private items: T[] = [];
   constructor(items: T[] = []) {
-    this.length = 0;
-    this.items = {};
     if (items.length) {
-      items.forEach(item => {
-        this.add(item);
-      });
+      for (let i = 0; i < items.length; i++) {
+        this.add(items[i]);
+      }
     }
   }
 
   add(value: T) {
     if (!this.has(value)) {
-      const key: string =
-        typeof value === "object"
-          ? JSON.stringify(value)
-          : ((value as unknown) as string);
-      this.items[key] = value;
-      this.length++;
+      this.items.push(value);
       return true;
     } else {
       return false;
@@ -32,36 +20,32 @@ export class MySet<T> {
   }
   delete(value: T) {
     if (this.has(value)) {
-      delete this.items[JSON.stringify(value)];
-      this.length--;
-      return value;
+      this.items = this.items.filter(v => v !== value);
+      return true;
     } else {
       return false;
     }
   }
   has(value: T) {
-    return !!this.items[JSON.stringify(value)];
+    return this.items.includes(value);
   }
   clear() {
-    this.length = 0;
-    this.items = {};
+    this.items = [];
   }
   size() {
-    return this.length;
-  }
-  keys() {
-    return Object.keys(this.items);
+    return this.items.length;
   }
   values() {
-    return Object.values(this.items);
+    return this[Symbol.iterator]();
   }
+  keys = this.values;
   union(otherSet: MySet<T>) {
-    const uSet = new MySet(this.values().concat(otherSet.values()));
+    const uSet = new MySet(this.items.concat(otherSet.items));
     return uSet;
   }
   intersection(otherSet: MySet<T>) {
     const iSet = new MySet();
-    this.values().forEach(v => {
+    this.items.forEach(v => {
       if (otherSet.has(v)) {
         iSet.add(v);
       }
@@ -70,7 +54,7 @@ export class MySet<T> {
   }
   difference(otherSet: MySet<T>) {
     const dSet = new MySet();
-    this.values().forEach(v => {
+    this.items.forEach(v => {
       if (!otherSet.has(v)) {
         dSet.add(v);
       }
@@ -78,7 +62,7 @@ export class MySet<T> {
     return dSet;
   }
   subset(otherSet: MySet<T>) {
-    for (const v of this.values()) {
+    for (const v of this.items) {
       if (!otherSet.has(v)) {
         return false;
       }
@@ -86,16 +70,35 @@ export class MySet<T> {
     return true;
   }
   [inspect]() {
-    return this.values();
+    return this.print();
   }
   toString() {
     return "[object MySet]";
   }
   print() {
-    if (this.length) {
-      return console.log("MySet {", this.values(), "}");
+    if (this.items.length) {
+      return console.log("MySet {", this.items, "}");
     } else {
       return console.log("MySet {}");
     }
+  }
+  [Symbol.iterator]() {
+    let pointer = 0;
+    const items = this.items;
+    return {
+      next(): IteratorResult<T> {
+        if (pointer < items.length) {
+          return {
+            done: false,
+            value: items[pointer++]
+          };
+        } else {
+          return {
+            done: true,
+            value: null
+          };
+        }
+      }
+    };
   }
 }

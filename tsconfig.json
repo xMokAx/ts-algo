@@ -5,6 +5,7 @@
     "noImplicitReturns": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
+    "downlevelIteration": true,
     "outDir": "js",
     "strict": true,
     "target": "es5",
