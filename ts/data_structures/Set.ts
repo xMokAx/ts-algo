@@ -2,11 +2,9 @@ const inspect = Symbol.for("nodejs.util.inspect.custom");
 
 export class MySet<T> {
   private items: T[] = [];
-  constructor(items: T[] = []) {
-    if (items.length) {
-      for (let i = 0; i < items.length; i++) {
-        this.add(items[i]);
-      }
+  constructor(items: Iterable<T> = []) {
+    for (const i of items) {
+      this.add(i);
     }
   }
 
