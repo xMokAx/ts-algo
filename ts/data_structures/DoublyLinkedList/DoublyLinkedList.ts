@@ -10,14 +10,14 @@ export class DoublyLinkedList<T> {
     this.length = 0;
   }
   private linkNode(node: DLLNode<T>, prev: DLLNode<T>, next: DLLNode<T>) {
-    node.setNext(next);
-    next.setPrev(node);
-    node.setPrev(prev);
-    prev.setNext(node);
+    node.next = next;
+    next.prev = node;
+    node.prev = prev;
+    prev.next = node;
   }
   private unlinkNode(prev: DLLNode<T>, next: DLLNode<T>) {
-    prev.setNext(next);
-    next.setPrev(prev);
+    prev.next = next;
+    next.prev = prev;
   }
 
   append(element: T) {
@@ -27,8 +27,8 @@ export class DoublyLinkedList<T> {
       this.head = node;
       this.tail = node;
     } else {
-      this.tail.setNext(node);
-      node.setPrev(this.tail);
+      this.tail.next = node;
+      node.prev = this.tail;
       this.tail = node;
     }
     this.length++;
@@ -43,13 +43,13 @@ export class DoublyLinkedList<T> {
         if (!currentHead) {
           this.tail = node;
         } else {
-          node.setNext(currentHead);
-          currentHead.setPrev(node);
+          node.next = currentHead;
+          currentHead.prev = node;
         }
         this.head = node;
       } else if (position === this.length) {
-        node.setPrev(currentTail);
-        currentTail!.setNext(node);
+        node.prev = currentTail;
+        currentTail!.next = node;
         this.tail = node;
       } else {
         let current: DLLNode<T>;
@@ -59,14 +59,14 @@ export class DoublyLinkedList<T> {
           current = currentHead!;
           for (let i = 0; i < position; i++) {
             prev = current!;
-            current = current!.getNext()!;
+            current = current!.next!;
           }
           this.linkNode(node, prev!, current);
         } else {
           current = currentTail!;
           for (let i = this.length; i > position; i--) {
             next = current;
-            current = current.getPrev()!;
+            current = current.prev!;
           }
           this.linkNode(node, current, next!);
         }
@@ -84,16 +84,16 @@ export class DoublyLinkedList<T> {
       let current: DLLNode<T>;
       if (position === 0) {
         current = currentHead!;
-        this.head = current.getNext();
+        this.head = current.next;
         if (this.head) {
-          this.head.setPrev(null);
+          this.head.prev = null;
         } else {
           this.tail = null;
         }
       } else if (position === this.length - 1) {
         current = currentTail!;
-        this.tail = current.getPrev();
-        this.tail!.setNext(null);
+        this.tail = current.prev;
+        this.tail!.next = null;
       } else {
         let prev: DLLNode<T>;
         let next: DLLNode<T>;
@@ -101,20 +101,20 @@ export class DoublyLinkedList<T> {
           current = currentHead!;
           for (let i = 0; i < position; i++) {
             prev = current;
-            current = current.getNext()!;
+            current = current.next!;
           }
-          this.unlinkNode(prev!, current.getNext()!);
+          this.unlinkNode(prev!, current.next!);
         } else {
           current = currentTail!;
           for (let i = this.length - 1; i > position; i--) {
             next = current;
-            current = current.getPrev()!;
+            current = current.prev!;
           }
-          this.unlinkNode(current.getPrev()!, next!);
+          this.unlinkNode(current.prev!, next!);
         }
       }
       this.length--;
-      return current.getElement();
+      return current.element;
     } else {
       return null;
     }
@@ -128,10 +128,10 @@ export class DoublyLinkedList<T> {
     let current = this.head;
 
     while (current) {
-      if (element === current.getElement()) {
+      if (element === current.element) {
         return index;
       }
-      current = current.getNext();
+      current = current.next;
       index++;
     }
     return -1;
@@ -153,11 +153,11 @@ export class DoublyLinkedList<T> {
     let string = "";
     while (current) {
       const stringToAdd =
-        typeof current.getElement() !== "object"
-          ? current.getElement()
-          : JSON.stringify(current.getElement());
-      string += `${stringToAdd}${current.getNext() ? ", " : ""}`;
-      current = current.getNext();
+        typeof current.element !== "object"
+          ? current.element
+          : JSON.stringify(current.element);
+      string += `${stringToAdd}${current.next ? ", " : ""}`;
+      current = current.next;
     }
     return string;
   }

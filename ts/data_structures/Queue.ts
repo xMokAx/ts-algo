@@ -24,7 +24,7 @@ export class Queue<T> {
 
   first() {
     if (this.elements.size()) {
-      return this.elements.getHead()!.getElement();
+      return this.elements.getHead()!.element;
     }
     return undefined;
   }
@@ -62,12 +62,12 @@ export class PriorityQueue<T> extends Queue<QueueElement<T>> {
     const queueElement = new QueueElement(element, priority);
     let current: LLNode<QueueElement<T>> = this.elements.getHead()!;
     for (let i = 0; i < this.elements.size(); i++) {
-      if (priority < current.getElement().priority) {
+      if (priority < current.element.priority) {
         this.elements.insert(i, queueElement);
 
         return this.size();
       }
-      current = current.getNext()!;
+      current = current.next!;
     }
     return super.enqueue(queueElement);
   }

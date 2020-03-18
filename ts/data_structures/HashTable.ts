@@ -31,15 +31,15 @@ export class HashTable<T> {
       let current = this.table[position].getHead();
       let index = 0;
       if (current) {
-        while (current.getNext()) {
-          if (current.getElement().key === key) {
+        while (current.next) {
+          if (current.element.key === key) {
             this.table[position].removeAt(index);
             return true;
           }
           index++;
-          current = current.getNext()!;
+          current = current.next!;
         }
-        if (current.getElement().key === key) {
+        if (current.element.key === key) {
           this.table[position].removeAt(index);
           if (this.table[position].isEmpty()) {
             delete this.table[position];
@@ -55,14 +55,14 @@ export class HashTable<T> {
     if (this.table[position]) {
       let current = this.table[position].getHead();
       if (current) {
-        while (current.getNext()) {
-          if (current.getElement().key === key) {
-            return current.getElement().value;
+        while (current.next) {
+          if (current.element.key === key) {
+            return current.element.value;
           }
-          current = current.getNext()!;
+          current = current.next!;
         }
-        if (current.getElement().key === key) {
-          return current.getElement().value;
+        if (current.element.key === key) {
+          return current.element.value;
         }
       }
     }

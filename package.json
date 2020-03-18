@@ -23,7 +23,8 @@
     "tsc": "tsc",
     "lint": "eslint --fix ts/**/*.ts",
     "format": "prettier --write **/*.{js,jsx,ts,tsx,json,css,scss,md}",
-    "play": "yarn tsc&&node js/playground"
+    "play": "yarn tsc&&node js/playground",
+    "play:debug": "yarn tsc&& node --inspect-brk js/playground"
   },
   "husky": {
     "hooks": {
